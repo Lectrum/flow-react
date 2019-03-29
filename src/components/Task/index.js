@@ -1,5 +1,5 @@
 // Core
-import React, { memo, useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import cx from 'classnames';
 
 // Instruments
@@ -11,7 +11,7 @@ import { Remove } from '../Remove';
 import { Edit } from '../Edit';
 import { Star } from '../Star';
 
-export const Task = memo((props) => {
+export const Task = (props) => {
     const [ isTaskEditing, setTaskEditing ] = useState(false);
     const [ newMessage, setNewMessage ] = useState(props.task.message);
 
@@ -143,4 +143,4 @@ export const Task = memo((props) => {
             </div>
         </li>
     );
-});
+};

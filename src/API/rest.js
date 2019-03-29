@@ -73,27 +73,17 @@ export const api = new class Api {
     }
 
     async completeAllTasks(tasks) {
-        const promises = [];
+        const response = await fetch(MAIN_URI, {
+            method:  'PUT',
+            headers: {
+                Authorization:  TOKEN,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(tasks),
+        });
 
-        for (const task of tasks) {
-            promises.push(
-                fetch(MAIN_URI, {
-                    method:  'PUT',
-                    headers: {
-                        Authorization:  TOKEN,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify([{ ...task, completed: true }]),
-                }),
-            );
-        }
-
-        const responses = await Promise.all(promises);
-
-        const success = responses.every((result) => result.status === 200);
-
-        if (!success) {
-            throw new Error('Tasks were not completed');
+        if (response.status !== 200) {
+            throw new Error('Tasks was not completed.');
         }
     }
 }();
