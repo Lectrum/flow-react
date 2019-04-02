@@ -1,5 +1,10 @@
+/* @flow */
+
 // Instruments
 import { MAIN_URI, TOKEN } from './config';
+
+// Types
+import { TaskModel } from '../types';
 
 export const api = new class Api {
     async fetchTasks() {
@@ -10,7 +15,9 @@ export const api = new class Api {
             },
         });
 
-        const { data: tasks } = await response.json();
+        const {
+            data: tasks,
+        }: { data: Array<TaskModel> } = await response.json();
 
         if (response.status !== 200) {
             throw new Error('Tasks were not fetched.');
@@ -19,7 +26,7 @@ export const api = new class Api {
         return tasks;
     }
 
-    async createTask(newTaskMessage) {
+    async createTask(newTaskMessage: string) {
         const response = await fetch(MAIN_URI, {
             method:  'POST',
             headers: {
@@ -29,7 +36,7 @@ export const api = new class Api {
             body: JSON.stringify({ message: newTaskMessage }),
         });
 
-        const { data: task } = await response.json();
+        const { data: task }: { data: TaskModel } = await response.json();
 
         if (response.status !== 200) {
             throw new Error('Task was not created.');
@@ -38,7 +45,7 @@ export const api = new class Api {
         return task;
     }
 
-    async updateTask(updatedTask) {
+    async updateTask(updatedTask: TaskModel) {
         const response = await fetch(MAIN_URI, {
             method:  'PUT',
             headers: {
@@ -50,6 +57,8 @@ export const api = new class Api {
 
         const {
             data: [ updatedTaskFromResponse ],
+        }: {
+            data: [TaskModel],
         } = await response.json();
 
         if (response.status !== 200) {
@@ -59,7 +68,7 @@ export const api = new class Api {
         return updatedTaskFromResponse;
     }
 
-    async removeTask(removedTaskId) {
+    async removeTask(removedTaskId: string) {
         const response = await fetch(`${MAIN_URI}/${removedTaskId}`, {
             method:  'DELETE',
             headers: {
@@ -72,7 +81,7 @@ export const api = new class Api {
         }
     }
 
-    async completeAllTasks(tasks) {
+    async completeAllTasks(tasks: Array<TaskModel>) {
         const response = await fetch(MAIN_URI, {
             method:  'PUT',
             headers: {

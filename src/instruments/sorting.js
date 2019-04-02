@@ -1,7 +1,12 @@
+/* @flow */
+
 // Core
 import moment from 'moment';
 
-export const sortTasksByDate = (tasks) => {
+// Types
+import type { TaskModel } from '../types';
+
+export const sortTasksByDate = (tasks: Array<TaskModel>): Array<TaskModel> => {
     return tasks.sort((task1, task2) => {
         if (moment(task1.created).unix() < moment(task2.created).unix()) {
             return 1;
@@ -15,7 +20,7 @@ export const sortTasksByDate = (tasks) => {
     });
 };
 
-export const sortTasksByGroup = (tasks) => {
+export const sortTasksByGroup = (tasks: Array<TaskModel>): Array<TaskModel> => {
     const favorite = tasks.filter((task) => task.favorite && !task.completed);
     const usual = tasks.filter((task) => !task.favorite && !task.completed);
     const completed = sortTasksByDate(tasks.filter((task) => task.completed));

@@ -1,6 +1,11 @@
+/* @flow */
+
 // Core
 import React, { useState, useEffect } from 'react';
 import Move from 'react-flip-move';
+
+// Types
+import type { TaskModel } from '../../types';
 
 // Instruments
 import Styles from './styles.module.css';
@@ -34,7 +39,7 @@ export const Scheduler = () => {
         }
     };
 
-    const createTaskAsync = async (event) => {
+    const createTaskAsync = async (event: SyntheticEvent<HTMLFormElement>) => {
         try {
             event.preventDefault();
             if (!newTaskMessage.trim()) {
@@ -51,7 +56,7 @@ export const Scheduler = () => {
         }
     };
 
-    const updateTaskAsync = async (updatedTask) => {
+    const updateTaskAsync = async (updatedTask: TaskModel) => {
         try {
             setTasksFetching(true);
             const updatedTaskFromResponse = await api.updateTask(updatedTask);
@@ -70,7 +75,7 @@ export const Scheduler = () => {
         }
     };
 
-    const removeTaskAsync = async (removedTaskId) => {
+    const removeTaskAsync = async (removedTaskId: string) => {
         try {
             setTasksFetching(true);
             await api.removeTask(removedTaskId);

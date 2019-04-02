@@ -1,6 +1,11 @@
+/* @flow */
+
 // Core
 import React, { useState, useRef, useEffect } from 'react';
 import cx from 'classnames';
+
+// Types
+import type { Props } from './types';
 
 // Instruments
 import Styles from './styles.module.css';
@@ -11,11 +16,11 @@ import { Remove } from '../Remove';
 import { Edit } from '../Edit';
 import { Star } from '../Star';
 
-export const Task = (props) => {
+export const Task = (props: Props) => {
     const [ isTaskEditing, setTaskEditing ] = useState(false);
     const [ newMessage, setNewMessage ] = useState(props.task.message);
 
-    const taskInput = useRef();
+    const taskInput: { current: HTMLInputElement | null } = useRef(null);
 
     const updateTask = () => {
         if (props.task.message === newMessage) {
@@ -43,7 +48,9 @@ export const Task = (props) => {
         setTaskEditing(false);
     };
 
-    const updateTaskMessageOnKeyDown = (event) => {
+    const updateTaskMessageOnKeyDown = (
+        event: SyntheticKeyboardEvent<HTMLInputElement>,
+    ) => {
         if (!newMessage.length) {
             return null;
         }
@@ -82,7 +89,9 @@ export const Task = (props) => {
     const removeTask = () => props.removeTaskAsync(props.task.id);
 
     useEffect(() => {
-        taskInput.current.focus();
+        if (taskInput.current instanceof HTMLInputElement) {
+            taskInput.current.focus();
+        }
     }, [ isTaskEditing ]);
 
     const styles = cx(Styles.task, {

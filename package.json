@@ -10,7 +10,8 @@
         "test": "react-app-rewired test",
         "eject": "react-scripts eject",
         "flow": "flow",
-        "serve": "serve -d build"
+        "serve": "serve -d build",
+        "ccc": "echo $test"
     },
     "dependencies": {
         "classnames": "2.2.6",

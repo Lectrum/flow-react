@@ -1,3 +1,5 @@
+/* @flow */
+
 // Core
 import React from 'react';
 import { render } from 'react-dom';
@@ -8,4 +10,8 @@ import './theme/init.css';
 // App
 import { Scheduler } from './components/Scheduler';
 
-render(<Scheduler />, document.getElementById('root'));
+const root = document.getElementById('root');
+
+if (root instanceof HTMLElement) {
+    render(<Scheduler />, root);
+}
